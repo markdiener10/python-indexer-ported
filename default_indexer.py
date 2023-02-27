@@ -9,7 +9,7 @@ __docformat__ = "restructuredtext en"
 
 import re
 
-from logilab.common.adbh import get_adv_func_helper
+from logilab.database import get_db_helper as get_adv_func_helper
 from logilab.common.textutils import unormalize
 
 from indexer.query import IndexerQuery, IndexerQueryScanner
@@ -53,7 +53,8 @@ def normalize(word):
        _ single letter
        _ numbers
     """
-    assert isinstance(word, unicode), '%r should be unicode' % word
+    #assert isinstance(word, unicode), '%r should be unicode' % word
+
     # do not index single letters
     if len(word) == 1:
         raise StopWord()
@@ -185,8 +186,9 @@ class Indexer(object):
         return query.execute(cursor or self._cnx.cursor())
 
     def restriction_sql(self, tablename, querystr, jointo=None, not_=False):
-        if isinstance(querystr, str):
-            querystr = unicode(querystr, self.encoding)
+        #if isinstance(querystr, str):
+        #    querystr = unicode(querystr, self.encoding)
+
         words = []
         for word in tokenize(querystr):
             try:
